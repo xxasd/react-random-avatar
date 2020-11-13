@@ -51,11 +51,11 @@ const RandomAvatar: React.FC<{
   const addAvatarAttributes = (arr: Array<IAvatar>) => {
     return arr.map((item) => {
       // Box random width height
-      let whRandom = getRandomInt(100);
-      // Min width height 60px
-      whRandom = whRandom < 60 ? 60 : whRandom;
+      let whRandom = getRandomInt(50);
+      // Min width height 30px
+      whRandom = whRandom < 30 ? 30 : whRandom;
       // Box random position
-      let positionRandom = getRandomInt(50);
+      let positionRandom = getRandomInt(25);
       // Animation delay time
       let delayRandom = parseFloat((Math.random() * Math.floor(1)).toFixed(1));
       // Return new avatar object
@@ -127,7 +127,7 @@ const RandomAvatar: React.FC<{
 
   return (
     <div className="random-avatar-panel">
-      {avatarList.map((item: IRandomAvatar, index) => {
+      {avatarList.map((item: IRandomAvatar, index: number) => {
         return (
           <div key={index} className="random-avatar-item">
             {item && (
@@ -140,7 +140,7 @@ const RandomAvatar: React.FC<{
                   top: item.top,
                   marginLeft: `-${item.width / 2}px`,
                   marginTop: `-${item.height / 2}px`,
-                  animationDelay: `${item.delay}s`,
+                  animationDelay: item.delay,
                 }}
                 src={item.headimg}
                 className="avatar-show"

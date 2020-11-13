@@ -1,0 +1,54 @@
+.random-avatar-panel {
+  margin: 30px;
+  width: 315px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  background: #000;
+}
+
+.random-avatar-item {
+  position: relative;
+  width: 63px;
+  height: 63px;
+}
+
+.random-avatar-item img {
+  border-radius: 50%;
+  position: absolute;
+  background: #d8d8d8;
+  border: 2px solid #ffffff;
+}
+
+.avatar-show {
+  opacity: 0;
+  animation: ShowHideAvatar 3s ease-out both;
+}
+
+@keyframes ShowHideAvatar {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  5% {
+    transform: scale(0.7);
+    opacity: 1;
+  }
+  10% {
+    transform: scale(1.16);
+    opacity: 1;
+  }
+  15%,
+  90% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  95% {
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
