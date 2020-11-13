@@ -55,7 +55,7 @@ const RandomAvatar: React.FC<{
       // Min width height 30px
       whRandom = whRandom < 30 ? 30 : whRandom;
       // Box random position
-      let positionRandom = getRandomInt(25);
+      let positionRandom = getRandomInt(78);
       // Animation delay time
       let delayRandom = parseFloat((Math.random() * Math.floor(1)).toFixed(1));
       // Return new avatar object
