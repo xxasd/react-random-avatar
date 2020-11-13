@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getRandomInt } from "../../utils";
+import "./randomAvatar.css";
 
+// mock
 import { mockAvatar } from "./mock";
 
 interface IAvatar {
@@ -8,12 +10,22 @@ interface IAvatar {
   headimg: string;
 }
 
-let interval: NodeJS.Timeout;
+interface IRandomAvatar extends IAvatar {
+  width: number;
+  height: number;
+  left: string;
+  top: string;
+  delay: string;
+}
 
-// Random avatar
-function RandomAvatar() {
+let interval: number;
+
+// Random avatar Function Component
+const RandomAvatar: React.FC<{
+  duration?: number; // Animation time
+}> = ({ duration }) => {
   // Mock data
-  const [avatarList, setAvatarList] = useState<Array<IAvatar>>([]);
+  const [avatarList, setAvatarList] = useState<Array<IRandomAvatar>>([]);
 
   // ComponentDidMount
   useEffect(() => {
@@ -23,6 +35,7 @@ function RandomAvatar() {
 
   /** Get mock data */
   const getFackApi = async () => {
+    // You can change it to your real data
     const data = await mockAvatar;
 
     // step 1：Add random attributes to the avatar
@@ -40,7 +53,7 @@ function RandomAvatar() {
       // Box random width height
       let whRandom = getRandomInt(100);
       // Min width height 60px
-      whRandom = Math.round(100 * (whRandom < 60 ? 60 : whRandom));
+      whRandom = whRandom < 60 ? 60 : whRandom;
       // Box random position
       let positionRandom = getRandomInt(50);
       // Animation delay time
@@ -52,7 +65,7 @@ function RandomAvatar() {
         height: whRandom,
         left: `${positionRandom}%`,
         top: `${positionRandom}%`,
-        aniDelay: delayRandom,
+        delay: `${delayRandom}s`,
       };
     });
   };
@@ -81,7 +94,7 @@ function RandomAvatar() {
     let playIndex = 0;
 
     // step 3: Timed loop array
-    interval = setInterval(() => {
+    interval = window.setInterval(() => {
       setAvatarList([]);
 
       if (playIndex < TDArray.length) {
@@ -91,7 +104,7 @@ function RandomAvatar() {
         playIndex = 0;
         randomPushArr(TDArray[playIndex], ODLength);
       }
-    }, 4000);
+    }, duration);
   };
 
   /**
@@ -112,7 +125,36 @@ function RandomAvatar() {
     setAvatarList(ODArray);
   };
 
-  return <div>random</div>;
-}
+  return (
+    <div className="random-avatar-panel">
+      {avatarList.map((item: IRandomAvatar, index) => {
+        return (
+          <div key={index} className="random-avatar-item">
+            {item && (
+              <img
+                alt="avatar"
+                style={{
+                  width: `${item.width}px`,
+                  height: `${item.height}px`,
+                  left: item.left,
+                  top: item.top,
+                  marginLeft: `-${item.width / 2}px`,
+                  marginTop: `-${item.height / 2}px`,
+                  animationDelay: `${item.delay}s`,
+                }}
+                src={item.headimg}
+                className="avatar-show"
+              />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+RandomAvatar.defaultProps = {
+  duration: 4000,
+};
 
 export default RandomAvatar;
