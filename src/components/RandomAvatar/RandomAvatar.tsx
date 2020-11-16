@@ -31,7 +31,7 @@ const RandomAvatar: React.FC<{
   useEffect(() => {
     getFackApi();
     return () => clearInterval(interval);
-  });
+  }, []);
 
   /** Get mock data */
   const getFackApi = async () => {
@@ -42,6 +42,8 @@ const RandomAvatar: React.FC<{
     const randomAvatarList = addAvatarAttributes(data);
     // step 2: Divide into a two-dimensional array
     divideInToTDArray(randomAvatarList);
+
+    console.log("getFackApi")
   };
 
   /**
@@ -51,11 +53,9 @@ const RandomAvatar: React.FC<{
   const addAvatarAttributes = (arr: Array<IAvatar>) => {
     return arr.map((item) => {
       // Box random width height
-      let whRandom = getRandomInt(50);
-      // Min width height 30px
-      whRandom = whRandom < 30 ? 30 : whRandom;
+      let whRandom = getRandomInt(30, 50);
       // Box random position
-      let positionRandom = getRandomInt(78);
+      let positionRandom = getRandomInt(1, 78);
       // Animation delay time
       let delayRandom = parseFloat((Math.random() * Math.floor(1)).toFixed(1));
       // Return new avatar object
@@ -83,19 +83,30 @@ const RandomAvatar: React.FC<{
       TDArray = [arr];
     } else {
       // Put into a new array according to the one-dimensional length
-      const length = Math.round(arr.length / ODLength);
+      const length = Math.floor(arr.length / ODLength);
 
       for (let i = 0; i < length; i++) {
         TDArray.push(arr.slice(i * ODLength, (i + 1) * ODLength));
       }
     }
+    
+    // step 3: Timed loop array
+    animationPlay(TDArray, ODLength);
+  };
 
+  /**
+   * Timed loop array
+   * @param {Array<Array<IAvatar>>} TDArray Two-dimensional array
+   * @param {number} ODLength Length of one-dimensional array
+   */
+  const animationPlay = (TDArray: Array<Array<IAvatar>>, ODLength: number) => {
     // The index of the array selected to be played
     let playIndex = 0;
 
     // step 3: Timed loop array
     interval = window.setInterval(() => {
-      setAvatarList([]);
+      let ODArray = Array(ODLength).fill("");
+      setAvatarList(ODArray);
 
       if (playIndex < TDArray.length) {
         randomPushArr(TDArray[playIndex], ODLength);
@@ -109,20 +120,20 @@ const RandomAvatar: React.FC<{
 
   /**
    * Random push into one-dimensional
-   * @param {Array<IAvatar>} arr
+   * @param {Array<IAvatar>} arr The array what you selected
    * @param {number} ODLength Length of one-dimensional array
    */
   const randomPushArr = (arr: Array<IAvatar>, ODLength: number) => {
-    let ODArray = Array(ODLength).fill("");
+    let TargetArray = Array(ODLength).fill("");
 
     arr.forEach((item) => {
       // Ignore duplicates
-      const index = getRandomInt(ODLength);
-      ODArray[index] = item;
+      const index = getRandomInt(1, ODLength - 1);
+      TargetArray[index] = item;
     });
 
     // step 4: Set avatar into view
-    setAvatarList(ODArray);
+    setAvatarList(TargetArray);
   };
 
   return (

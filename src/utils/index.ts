@@ -1,7 +1,8 @@
 /**
- * get random number between 1 and max
+ * get random number between min and max
+ * @param {number} min default 1
  * @param {number} max
  */
-export const getRandomInt = (max: number) => {
-  return Math.floor(Math.random() * Math.floor(max));
+export const getRandomInt = (min: number = 1, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
