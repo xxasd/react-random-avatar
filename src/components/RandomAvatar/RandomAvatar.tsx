@@ -31,7 +31,7 @@ const RandomAvatar: React.FC<{
   useEffect(() => {
     getFackApi();
     return () => clearInterval(interval);
-  }, []);
+  });
 
   /** Get mock data */
   const getFackApi = async () => {
