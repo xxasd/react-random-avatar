@@ -23,7 +23,7 @@
 }
 
 .avatar-show {
-  display: none;
+  /* display: none; */
   opacity: 0;
   animation: ShowHideAvatar 3s ease-out both;
 }

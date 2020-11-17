@@ -93,7 +93,7 @@ const RandomAvatar: React.FC = () => {
 
   // ComponentDidMount
   useEffect(() => {
-    const data: any = getFackApi();
+    const data = getFackApi();
 
     // step 1：Add random attributes to the avatar
     const randomAvatarList = addAvatarAttributes(data);
@@ -105,10 +105,10 @@ const RandomAvatar: React.FC = () => {
   }, []);
 
   /** Get mock data */
-  const getFackApi = async () => {
+  const getFackApi = () => {
     // You can change it to your real data
     // const data = await mockAvatar;
-    return await mockAvatar;
+    return mockAvatar;
   };
 
   /**
@@ -125,12 +125,13 @@ const RandomAvatar: React.FC = () => {
       let ODArray = Array(ODLength).fill("");
       setAvatarList(ODArray);
 
-      const TargetArray = randomPushArr(TDArray[playIndex], ODLength);
       if (playIndex < TDArray.length) {
+        const TargetArray = randomPushArr(TDArray[playIndex], ODLength);
         setAvatarList(TargetArray);
         playIndex++;
       } else {
         playIndex = 0;
+        const TargetArray = randomPushArr(TDArray[playIndex], ODLength);
         setAvatarList(TargetArray);
       }
     }, 4000);
